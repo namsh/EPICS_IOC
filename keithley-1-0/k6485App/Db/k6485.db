@@ -1,7 +1,7 @@
 # Keithley k6485 Record
 # Author : Seung-hee Nam
 # email : namsh@korea.ac.kr / beyourangel1@gmail.com
-# Data : Tuesday, April 25 13:43 KST 2021
+# Data : Tuesday, November 15 17:18 KST 2022
 
 record(stringin, "$(P)$(R):IDN")
 {
