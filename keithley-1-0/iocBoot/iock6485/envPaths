@@ -1,0 +1,3 @@
+epicsEnvSet("ARCH","linux-x86_64")
+epicsEnvSet("IOC","iock6485")
+epicsEnvSet("TOP","/home/namsh/epics/R3.14.12.5/KoreaUniv/keithley-1-0")

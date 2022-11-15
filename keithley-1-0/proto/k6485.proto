@@ -1,0 +1,101 @@
+# Keithley k6485 Communication Protocol
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, November 15 16:10 KST 2022
+# Data format
+#       baud rate : 9600
+#       parity : None
+#       data : 8
+#       stop : 1
+# Communication procedure
+# Transmit Protocol : SCPI
+# Terminator : CR LF
+
+
+@writetimeout { disconnect; }
+@replytimeout { disconnect; }
+@readtimeout  { disconnect; }
+@mismatch     { disconnect; }
+
+ReplyTimeout = 3000;
+InTerminator = "\r";
+OutTerminator = "\r";
+Terminator = CR LF;
+
+getIDN {
+    out "*IDN?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+}
+cmd {
+    out "\$1";
+}
+
+setD {
+    out "\$1 %d";
+    @init { out "\$1?"; in "%d"; }
+}
+getD {
+    out "\$1?";
+    in "%d";
+    ExtraInput = Ignore;
+}
+
+getF 
+{
+    out "\$1?";
+    in  "%f";
+    ExtraInput = Ignore;
+}
+
+setF 
+{
+    out "\$1 %f";
+    @init { getF; }
+}
+
+getRange 
+{    
+    out "CURR:RANG?";
+    in  "%*[^E]E-%d";
+    ExtraInput = Ignore;
+}
+
+setRange 
+{
+    out "CURR:RANG 2E-%d";
+    @init { getRange; }
+}
+
+setADRate 
+{
+    out "CURR:NPLC %{6.00|1.00|0.10}";
+    @init { out "CURR:NPLC?"; in "%{6.00|1.00|0.10}"; }
+}
+
+
+getADRate 
+{
+    out "CURR:NPLC?"; 
+    in  "%{6.00|1.00|0.10}";
+    ExtraInput = Ignore;
+}
+
+setTriggerSource {
+    out "TRIG:SOUR %{IMM|TLIN}";
+    @init { out "TRIG:SOUR?"; in "%{IMM|TLIN}"; }
+}
+getTriggerSource {
+    out "TRIG:SOUR?";
+    in "%{IMM|TLIN}";
+    ExtraInput = Ignore;
+}
+
+measureCurrent 
+{
+    ReplyTimeout = 5000;
+    out "READ?";
+    in  "%f";
+    ExtraInput = Ignore;
+}
+

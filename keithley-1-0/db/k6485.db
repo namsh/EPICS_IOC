@@ -1,0 +1,339 @@
+# Keithley k6485 Record
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, April 25 13:43 KST 2021
+
+record(stringin, "$(P)$(R):IDN")
+{
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getIDN(119) $(PORT) $(A)")
+    field(PINI, "YES")
+}
+record(bo, "$(P)$(R):RST")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto cmd(*RST) $(PORT) $(A)")
+    field(PINI, "YES")
+}
+record(bo, "$(P)$(R):CLS")
+{
+    field(DESC, "SCPI Clear status")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto cmd(*CLS) $(PORT) $(A)")
+}
+record(bo, "$(P)$(R):TRG")
+{
+    field(DESC, "SCPI trigger")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto cmd(*TRG) $(PORT) $(A)")
+}
+record(longin, "$(P)$(R):GetSTB")
+{
+    field(DESC, "SCPI get status byte")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getD(*STB) $(PORT) $(A)")
+}
+record(longin, "$(P)$(R):GetESR")
+{
+    field(DESC, "SCPI get event status")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getD(*ESR) $(PORT) $(A)")
+}
+record(longout, "$(P)$(R):SetESE")
+{
+    field(DESC, "SCPI enable event status")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto setD(*ESE) $(PORT) $(A)")
+}
+record(longin, "$(P)$(R):GetESE")
+{
+    field(DESC, "SCPI enabled event status")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getD(*ESE) $(PORT) $(A)")
+}
+record(longout, "$(P)$(R):SetSRE")
+{
+    field(DESC, "SCPI enable service requests")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto setD(*SRE) $(PORT) $(A)")
+}
+record(longin, "$(P)$(R):GetSRE")
+{
+    field(DESC, "Enabled service requests")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getD(*SRE) $(PORT) $(A)")
+}
+
+record(longin, "$(P)$(R):GetOPC")
+{
+    field(DESC, "Output completion status")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getD(*OPC) $(PORT) $(A)")
+}
+record(mbbo, "$(P)$(R):Range")
+{
+    field(DESC, "Full-scale range")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto setRange $(PORT) $(A)")
+    field(ZRVL, "9")
+    field(ZRST, "2 nA")
+    field(ONVL, "8")
+    field(ONST, "20 nA")
+    field(TWVL, "7")
+    field(TWST, "200 nA")
+    field(THVL, "6")
+    field(THST, "2 uA")
+    field(FRVL, "5")
+    field(FRST, "20 uA")
+    field(FVVL, "4")
+    field(FVST, "200 uA")
+    field(SXVL, "3")
+    field(SXST, "2 mA")
+    field(SVVL, "2")
+    field(SVST, "20 mA")
+    field(FLNK, "$(P)$(R):RangeRBV")
+}
+record(mbbi, "$(P)$(R):RangeRBV")
+{
+    field(DESC, "Full-scale range readback")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getRange $(PORT) $(A)")
+    field(ZRVL, "9")
+    field(ZRST, "2 nA")
+    field(ONVL, "8")
+    field(ONST, "20 nA")
+    field(TWVL, "7")
+    field(TWST, "200 nA")
+    field(THVL, "6")
+    field(THST, "2 uA")
+    field(FRVL, "5")
+    field(FRST, "20 uA")
+    field(FVVL, "4")
+    field(FVST, "200 uA")
+    field(SXVL, "3")
+    field(SXST, "2 mA")
+    field(SVVL, "2")
+    field(SVST, "20 mA")
+    field(PINI, "YES")
+}
+record(bo, "$(P)$(R):CurrAutoRange") 
+{
+    field(DESC, "Enable/disable current auto range")
+    field(DTYP, "stream")
+    field( OUT, "@k6485.proto setD(CURR:RANG:AUTO) $(PORT) $(A)")
+    field(ZNAM, "Fixed")
+    field(ONAM, "Auto")
+    field( VAL, "1")
+    field(PINI, "YES")
+    field(FLNK, "$(P)$(R):CurrAutoRangeRB")
+}
+record(bi, "$(P)$(R):CurrAutoRangeRB") 
+{
+    field(DESC, "Readback the current auto range")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto getD(CURR:RANG:AUTO) $(PORT) $(A)")
+    field(ZNAM, "Fixed")
+    field(ONAM, "Auto")
+}
+record(ao, "$(P)$(R):SetNPLC") 
+{
+    field(DESC, "Set NPLC value")
+    field(DTYP, "stream")
+    field( OUT, "@k6485.proto setF(CURR:NPLC) $(PORT) $(A)")
+    field(LOPR, "0.01")
+    field(HOPR, "10")
+    field(DRVL, "0.01")
+    field(DRVH, "10")
+    field( VAL, "1")
+    field(PINI, "YES")
+    field(FLNK, "$(P)$(R):GetNPLC")
+}
+record(ai, "$(P)$(R):GetNPLC") 
+{
+    field(DESC, "Get NPLC value")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto getF(CURR:NPLC) $(PORT) $(A)")
+}
+record(mbbo, "$(P)$(R):SetADRate") 
+{
+    field(DESC, "Set Predefined Rate")
+    field(DTYP, "stream")
+    field( OUT, "@k6485.proto setADRate $(PORT) $(A)")
+    field(ZRST, "Slow")
+    field(ZRVL, "0")
+    field(ONST, "Med")
+    field(ONVL, "1")
+    field(TWST, "Fast")
+    field(TWVL, "2")
+    field(THSV, "INVALID")
+    field(FRSV, "INVALID")
+    field(FVSV, "INVALID")
+    field(SXSV, "INVALID")
+    field(SVSV, "INVALID")
+    field(EISV, "INVALID")
+    field(NISV, "INVALID")
+    field(TESV, "INVALID")
+    field(ELSV, "INVALID")
+    field(TVSV, "INVALID")
+    field(TTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FFSV, "INVALID")
+    field(UNSV, "INVALID")
+    field(IVOA, "Don't drive outputs")
+    field(FLNK, "$(P)$(R):GetADRate")
+}
+record(mbbi, "$(P)$(R):GetADRate") 
+{
+    field(DESC, "Get Predefined Rate")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto getADRate $(PORT) $(A)")
+    field(ZRST, "Slow")
+    field(ZRVL, "0")
+    field(ONST, "Med")
+    field(ONVL, "1")
+    field(TWST, "Fast")
+    field(TWVL, "2")
+    field(THSV, "INVALID")
+    field(FRSV, "INVALID")
+    field(FVSV, "INVALID")
+    field(SXSV, "INVALID")
+    field(SVSV, "INVALID")
+    field(EISV, "INVALID")
+    field(NISV, "INVALID")
+    field(TESV, "INVALID")
+    field(ELSV, "INVALID")
+    field(TVSV, "INVALID")
+    field(TTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FTSV, "INVALID")
+    field(FFSV, "INVALID")
+    field(UNSV, "INVALID")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)$(R):SetZeroCorrect") 
+{
+    field(DESC, "Enable or disable zero correct")
+    field(DTYP, "stream")
+    field( OUT, "@k6485.proto setD(SYST:ZCOR) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field( VAL, "0")
+    field(PINI, "YES")
+    field(FLNK, "$(P)$(R):GetZeroCorrect")
+}
+
+record(bi, "$(P)$(R):GetZeroCorrect") 
+{
+    field(DESC, "Readback zero correct")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto getD(SYST:ZCOR) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(bo, "$(P)$(R):SetZeroCheck") 
+{
+    field(DESC, "Disable/Enable zero check")
+    field(DTYP, "stream")
+    field( OUT, "@k6485.proto setD(SYST:ZCH) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(PINI, "YES")
+    field( VAL, "1")
+    field(FLNK, "$(P)$(R):GetZeroCheck")
+}
+
+record(bi, "$(P)$(R):GetZeroCheck") 
+{
+    field(DESC, "Readback zero check status")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto getD(SYST:ZCH) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+record(mbbo, "$(P)$(R):TriggerLine")
+{
+    field(DESC, "TLINK trigger line")
+    field(DTYP, "stream")
+    field(OUT,  "@k6485.proto setD(TRIG:ILIN) $(PORT) $(A)")
+    field(ONVL, "1")
+    field(ONST, " TLink 1")
+    field(TWVL, "2")
+    field(TWST, " TLink 2")
+    field(THVL, "3")
+    field(THST, " TLink 3")
+    field(FRVL, "4")
+    field(FRST, " TLink 4")
+    field(FVVL, "5")
+    field(FVST, " TLink 5")
+    field(SXVL, "6")
+    field(SXST, " TLink 6")
+    field(FLNK, "$(P)$(R):TriggerLineRBV")
+
+}
+record(mbbi, "$(P)$(R):TriggerLineRBV")
+{
+    field(DESC, "TLINK trigger line")
+    field(DTYP, "stream")
+    field(INP,  "@k6485.proto getD(TRIG:ILIN) $(PORT) $(A)")
+    field(ONVL, "1")
+    field(ONST, " TLink 1")
+    field(TWVL, "2")
+    field(TWST, " TLink 2")
+    field(THVL, "3")
+    field(THST, " TLink 3")
+    field(FRVL, "4")
+    field(FRST, " TLink 4")
+    field(FVVL, "5")
+    field(FVST, " TLink 5")
+    field(SXVL, "6")
+    field(SXST, " TLink 6")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)$(R):SetTriggerSource")
+{
+    field(DESC, "Trigger Source Select")
+    field(DTYP, "stream")
+    field( OUT, "@k6485.proto setTriggerSource $(PORT) $(A)")
+    field(ZNAM, "Internal")
+    field(ONAM, "External")
+    field( VAL, "0")
+    field(FLNK, "$(P)$(R):GetTriggerSource")
+}
+
+record(bi, "$(P)$(R):GetTriggerSource")
+{
+    field(DESC, "Trigger Source Select RBV")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto getTriggerSource $(PORT) $(A)")
+    field(ZNAM, "Internal")
+    field(ONAM, "External")
+}
+
+record(ai, "$(P)$(R):MeasureCurrent") 
+{
+    field(DESC, "Measure current")
+    field(DTYP, "stream")
+    field( INP, "@k6485.proto measureCurrent $(PORT) $(A)")
+    field( EGU, "A")
+    field(PREC, "5")
+    field(SCAN, ".1 second")
+}
+
+record(calc, "$(P)$(R):MeasureCharge")
+{
+    field(DESC, "Measure Charge")
+    field(SCAN, "1 second")
+    field(CALC, "(A*B)/C")
+    field(INPA, "$(P)$(R):MeasureCurrent")
+    field(INPB, "$(P)$(R):GetNPLC")
+    field(INPC, "60")
+    field(EGU, "C")
+}
+
