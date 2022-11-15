@@ -1,0 +1,3 @@
+epicsEnvSet("ARCH","linux-x86_64")
+epicsEnvSet("IOC","iocvgc3501")
+epicsEnvSet("TOP","/home/namsh/epics/R3.14.12.5/KoreaUniv/mks-1-0")

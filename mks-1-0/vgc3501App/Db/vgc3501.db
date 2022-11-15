@@ -1,0 +1,69 @@
+# MKS vgc3501 Record
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, November 15 17:17 KST 2022
+
+record(ai, "$(P)$(R):MeasureTop") 
+{
+    field(DESC, "Measure top display pressure")
+    field(DTYP, "stream")
+    field( INP, "@vgc3501.proto measurePressure1 $(PORT) $(A)")
+    field( EGU, "Torr")
+    field(PREC, "5")
+    field(SCAN, "1 second")
+}
+
+#record(ai, "$(P)$(R):MeasureMiddle") 
+#{
+#    field(DESC, "Measure middle display pressure")
+#    field(DTYP, "stream")
+#    field( INP, "@vgc3501.proto measurePressure2 $(PORT) $(A)")
+#    field( EGU, "Torr")
+#    field(PREC, "5")
+#    field(SCAN, "1 second")
+#}
+
+#record(ai, "$(P)$(R):MeasureBottom") 
+#{
+#    field(DESC, "Measure Bottom display pressure")
+#    field(DTYP, "stream")
+#    field( INP, "@vgc3501.proto measurePressure3 $(PORT) $(A)")
+#    field( EGU, "Torr")
+#    field(PREC, "5")
+#    field(SCAN, "1 second")
+#}
+
+record(bo, "$(P)$(R):Filament1") 
+{
+    field(DESC, "Trun filament on or off")
+    field(DTYP, "stream")
+    field( OUT, "@vgc3501.proto setD(#F1) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(PINI, "YES")
+    field( VAL, "0")
+}
+
+record(bo, "$(P)$(R):Filament2") 
+{
+    field(DESC, "Trun filament on or off")
+    field(DTYP, "stream")
+    field( OUT, "@vgc3501.proto setD(#F2) $(PORT) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+    field(PINI, "YES")
+    field( VAL, "0")
+}
+
+record(mbbi, "$(P)$(R):GaugeStatus") 
+{
+    field(DESC, "Display ion gauge status")
+    field(DTYP, "stream")
+    field( INP, "@vgc3501.proto status $(PORT) $(A)")
+    field(ZRST, "Filament off")
+    field(ZRVL, "0")
+    field(ONST, "Filament1 on")
+    field(ONVL, "1")
+    field(TWST, "Filament2 on")
+    field(TWVL, "2")
+}

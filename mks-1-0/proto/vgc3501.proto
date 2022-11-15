@@ -1,0 +1,59 @@
+# MKS vgc3501 Communication Protocol
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, November 15 17:10 KST 2022
+# Data format
+#       baud rate : 9600
+#       parity : None
+#       data : 8
+#       stop : 1
+# Communication procedure
+# Transmit Protocol : SCPI
+# Terminator : CR LF
+
+@writetimeout { disconnect; }
+@replytimeout { disconnect; }
+@readtimeout  { disconnect; }
+@mismatch     { disconnect; }
+
+ReplyTimeout = 3000;
+InTerminator = "\r";
+OutTerminator = "\r";
+Terminator = CR LF;
+
+setD {
+    out "\$1 %d";
+}
+
+measurePressure1
+{
+    ReplyTimeout = 5000;
+    out "#RD";
+    in  "* %f";
+    ExtraInput = Ignore;
+}
+
+measurePressure2
+{
+    ReplyTimeout = 5000;
+    out "#RDA";
+    in  "* %11f";
+    ExtraInput = Ignore;
+}
+
+measurePressure3
+{
+    ReplyTimeout = 5000;
+    out "#RDB";
+    in  "* %11f";
+    ExtraInput = Ignore;
+}
+
+
+status
+{
+    ReplyTimeout = 5000;
+    out "#IGS";
+    in "* %{00|01|10} ";
+    ExtraInput = Ignore;
+}
