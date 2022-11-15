@@ -1,0 +1,67 @@
+# HP hp83751A Record
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, November 15 19:38 KST 2022
+
+record(stringin, "$(P)$(R):IDN")
+{
+    field(DESC, "SCPI identification string")
+    field(DTYP, "stream")
+    field(INP,  "@hp83751A.proto getIDN(119) $(PORT) $(ADDR)")
+    field(PINI, "YES")
+}
+record(bo, "$(P)$(R):RST")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@hp83751A.proto cmd(*RST) $(PORT) $(ADDR)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)$(R):RF")
+{
+    field(DESC, "RF Power on/off")
+    field(DTYP, "stream")
+    field(OUT,  "@hp83751A.proto switch $(PORT) $(ADDR)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field( VAL, "0")
+    field(PINI, "YES")
+}
+
+record(stringout, "$(P)$(R):SFREQ")
+{
+    field(DESC, "Setting frequency")
+    field(DTYP, "stream")
+    field(OUT,  "@hp83751A.proto setFREQ $(PORT) $(ADDR)")
+    field(EGU, "GHz")
+}
+
+#record(stringin, "$(P)$(R):GFREQ")
+#{
+#    field(DESC, "Setting frequency")
+#    field(DTYP, "stream")
+#    field(OUT,  "@hp83751A.proto getFREQ $(PORT) $(ADDR)")
+#    field(SCAN, "1 second")
+#}
+
+record(ao, "$(P)$(R):AMPLITUDE")
+{
+    field(DESC, "Setting power")
+    field(DTYP, "stream")
+    field(OUT,  "@hp83751A.proto setPOW $(PORT) $(ADDR)")
+    field(EGU, "dBm")
+}
+
+record(calc, "$(P)$(R):claculation")
+{
+    field(DESC, "")
+    field(SCAN, "1 second")
+    field(CALC, "B^((A+C)/B)*B^D)")
+    field(INPA, "$(P)$(R):AMPLITUDE")
+    field(INPB, "10")
+    filed(INPC, "45.3")
+    filed(INPD, "-3")
+    field(EGU, "C")
+}
+

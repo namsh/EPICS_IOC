@@ -1,0 +1,3 @@
+epicsEnvSet("ARCH","linux-x86_64")
+epicsEnvSet("IOC","iochp83751A")
+epicsEnvSet("TOP","/home/namsh/epics/R3.14.12.5/EPICS_IOC/hp-1-0")

@@ -1,0 +1,71 @@
+# HP hp83751A Communication Protocol
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, November 15 19:40 KST 2022
+# Communication procedure
+# Transmit Protocol : SCPI
+# Terminator : LF
+
+@writetimeout { disconnect; }
+@replytimeout { disconnect; }
+@readtimeout  { disconnect; }
+@mismatch     { disconnect; }
+
+ReplyTimeout = 3000;
+Terminator = LF;
+ExtraInput = Ignore;
+
+getIDN {
+    out "*IDN?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+}
+
+cmd {
+    out "\$1";
+}
+
+setD {
+    out "\$1 %d";
+    @init { out "\$1?"; in "%d"; }
+}
+
+getD {
+    out "\$1?";
+    in "%d";
+    ExtraInput = Ignore;
+}
+
+getF 
+{
+    out "\$1?";
+    in  "%f";
+    ExtraInput = Ignore;
+}
+
+setF 
+{
+    out "\$1 %f";
+    @init { getF; }
+}
+
+setFREQ 
+{
+    out "FREQ %s GHz";
+}
+
+getFREQ
+{
+    out "FREQ:CW?";
+    in "%s";
+}
+
+setPOW
+{
+    out "POW:AMPL %f dBm";
+}
+
+switch
+{
+    out "POW:STAT %{OFF|ON}";
+}

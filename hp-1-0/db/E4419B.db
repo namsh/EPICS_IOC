@@ -1,0 +1,61 @@
+# HP E4419B Record
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Data : Tuesday, November 15 19:48 KST 2022
+
+record(bo, "$(P)$(R):RST")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@E4419B.proto cmd(*RST) $(PORT) $(A)")
+}
+
+record(ao, "$(P)$(R):AVERCOUN")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@E4419B.proto setD(AVER:COUN) $(PORT) $(A)")
+}
+
+record(ao, "$(P)$(R):FREQ")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(EGU, "Hz")
+    field(OUT,  "@E4419B.proto setD(FREQ) $(PORT) $(A)")
+}
+
+record(ao, "$(P)$(R):OFFSETV")
+{
+    field(DESC, "SCPI Reset")
+    field(DTYP, "stream")
+    field(OUT,  "@E4419B.proto setD(CALC:GAIN) $(PORT) $(A)")
+    field(EGU, "dB")
+}
+
+record(bo, "$(P)$(R):OFFSET") 
+{
+    field(DESC, "Trun filament on or off")
+    field(DTYP, "stream")
+    field( OUT, "@E4419B.proto setD(CALC:GAIN:STAT) $(PORT) $(A)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(PINI, "YES")
+    field( VAL, "0")
+}
+
+record(ai, "$(P)$(R):ChA")
+{
+    field(DESC, "Get Channel A value")
+    field(DTYP, "stream")
+    field(INP, "@E4419B.proto getF(READ1) $(PORT) $(A)")
+    field(SCAN, "1 second")
+}
+
+record(ai, "$(P)$(R):ChB")
+{
+    field(DESC, "Get Channel B value")
+    field(DTYP, "stream")
+    field(INP, "@E4419B.proto getF(READ2) $(PORT) $(A)")
+    field(SCAN, "1 second")
+}
