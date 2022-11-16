@@ -1,0 +1,105 @@
+# HEiNZINGER high voltage Record
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr /beyourangel1@gmail.com
+# Data : Tuesday, April 25 13:43 KST 2021
+
+record(ai, "$(P)$(R):GetVOLT") 
+{
+    field(DESC, "Get voltage value")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field( INP, "@heinzinger.proto getvolt $(PORT) $(A)")
+}
+
+record(ao, "$(P)$(R):SetVOLT") 
+{
+    field(DESC, "Set nomial voltage value")
+    field(DTYP, "stream")
+    field( OUT, "@heinzinger.proto setvolt $(PORT) $(A)")
+}
+
+record(ai, "$(P)$(R):GetCURRENT") 
+{
+    field(DESC, "Get current value")
+    field(DTYP, "stream")
+    field(SCAN, "1 second")
+    field( INP, "@heinzinger.proto getcurrent $(PORT) $(A)")
+}
+
+record(ao, "$(P)$(R):SetCURRENT") 
+{
+    field(DESC, "Set nomial current value")
+    field(DTYP, "stream")
+    field( OUT, "@heinzinger.proto setcurrent $(PORT) $(A)")
+}
+
+record(bo, "$(P)$(R):OUTPUT") 
+{
+    field(DESC, "Control of DC-Output")
+    field(DTYP, "stream")
+    field( OUT, "@heinzinger.proto setoutput $(PORT) $(A)")
+    field(ZNAM, "OFF")
+    field(ONAM, "ON")
+    field(PINI, "YES")
+    field( VAL, "0")
+}
+
+record(ai, "$(P)$(R):GetEVOLT") 
+{
+    field(DESC, "Get effective volt value")
+    field(DTYP, "stream")
+    field(SCAN, "0.1 second")
+    field( INP, "@heinzinger.proto getevolt $(PORT) $(A)")
+}
+
+record(ai, "$(P)$(R):GetECURRENT") 
+{
+    field(DESC, "Get effective current value")
+    field(DTYP, "stream")
+    field(SCAN, "0.1 second")
+    field( INP, "@heinzinger.proto getecurrent $(PORT) $(A)")
+}
+
+
+#record(mbbo, "$(P)$(R):SetAVERAGE") 
+#{
+#    field(DESC, "determins for average value calculation")
+#    field(DTYP, "stream")
+#    field( OUT, "@heinzinger.proto setaverage $(PORT) $(A)")
+#    field(ZRVL, "1")
+#    field(ONVL, "2")
+#    field(TWVL, "4")
+#    field(THVL, "8")
+#    field(FRVL, "16")
+#}
+
+#record(ai, "$(P)$(R):GetAVERAGE") 
+#{
+#    field(DESC, "Get average value calculation")
+#    field(DTYP, "stream")
+#    field( INP, "@heinzinger.proto getaverage $(PORT) $(A)")
+#}
+
+#record(ai, "$(P)$(R):GetVERSION")
+#{
+#    field(DESC, "Shows the versionsnummer")
+#    field(DTYP, "stream")
+#    field( INP, "@heinzinger.proto getversion $(PORT) $(A)")
+#}
+
+record(stringin, "$(P)$(R):IDN")
+{
+    field(DESC, "Shows the S/N of the power supply")
+    field(DTYP, "stream")
+    field(INP,  "@heinzinger.proto getIDN(119) $(PORT) $(A)")
+    field(PINI, "YES")
+}
+
+record(bo, "$(P)$(R):RST")
+{
+    field(DESC, "Reset of the Digital Interface")
+    field(DTYP, "stream")
+    field(OUT,  "@heinzinger.proto setRST $(PORT) $(A)")
+    field(PINI, "YES")
+}
+

@@ -1,0 +1,128 @@
+# HEiNZINGER high voltage Communication Protocol
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Date : Monday, Jaunary 25 13:43 KST 2021
+# Data format
+#       baud rate : 9600
+#       parity : None
+#       data : 8
+#       stop : 1
+# Communication procedure
+# Transmit Protocol : SCPI
+# Terminator : LF
+Terminator = LF;
+
+#-------------------------------------------#
+# Get voltage value	                    #
+# Instruction : VOLTage?	            #
+# Receive : < 100kV(V) / >= 100kV(kV)       #
+#-------------------------------------------#
+getvolt { 
+    out "VOLT?";
+    in "%f";
+}
+
+#-------------------------------------------#
+# Set nominal voltage value	            #
+# Instruction : VOLTage <voltage>           #
+# Receive : < 100kV(V) / >= 100kV(kV)       #
+#-------------------------------------------#
+setvolt {
+    out "VOLT %f";
+}
+
+#-------------------------------------------#
+# Get current value	                    #
+# Instruction : CURRent?	            #
+# Receive : <1mA(uA)/1mA<<1A(mA)/>=1A(A)    #
+#-------------------------------------------#
+getcurrent {
+    out "CURR?";
+    in "%f";
+}
+
+#-------------------------------------------#
+# Set nominal current value                 #
+# Instruction : CURRent <current>           #
+# Receive : <1mA(uA)/1mA<<1A(mA)/>=1A(A)    #
+#-------------------------------------------#
+setcurrent {
+    out "CURR %f";
+}
+
+#-------------------------------------------#
+# Control of DC-Output	                    #
+# Instruction : OUTPut <ON or OFF>          #
+#-------------------------------------------#
+setoutput {
+    out "OUTP %d";
+}
+
+#-------------------------------------------#
+# Get effective voltage  value	            #
+# Instruction : MEASure:VOLTage?            #
+# Receive : < 100kV(V) / >= 100kV(kV)       #
+#-------------------------------------------#
+getevolt {
+    out "MEAS:VOLT?";
+    in "%f";
+}
+
+#-------------------------------------------#
+# Get effetive current value	            #
+# Instruction : MEASure:CURRent?            #
+# Receive : <1mA(uA)/1mA<<1A(mA)/>=1A(A)    #
+#-------------------------------------------#
+getecurrent {
+    out "MEAS:CURR?";
+    in "%f";
+}
+
+#-------------------------------------------#
+# determins for average value calculation   #
+# Instruction : AVERage <number of record>  #
+# Number of recordings : 1, 2, 4, 8, 16     #
+# Receive : approx 320 ms per recording     #
+#-------------------------------------------#
+#setaverage {
+#    out "AVER %{1|2|4|8|16}";
+#    ExtraInput = Ignore;
+#}
+
+#-------------------------------------------#
+# Get average value calculation	            #
+# Instruction : AVERage?	            #
+#-------------------------------------------#
+#getaverage {
+#    out "AVER?";
+#    in "%d";
+#}
+
+#-------------------------------------------#
+# Shows the versionsnummer		    #
+# Instruction : VERSion?		    #
+# Receive : NNNN.N			    #
+#-------------------------------------------#
+#getversion {
+#    out "VERS?";
+#    in "%f";
+#}
+
+#-------------------------------------------#
+# Shows the S/N of the power supply	    #
+# Instruction : *IDN?			    #
+#-------------------------------------------#
+getIDN {
+    out "*IDN?";
+    in "%\$1[^\r\n]";
+    ExtraInput = Ignore;
+}
+
+#-------------------------------------------#
+# Reset of the Digital Interface	    #
+# Instruction : *RST			    #
+#-------------------------------------------#
+setRST {
+    out "*RST";
+}
+
