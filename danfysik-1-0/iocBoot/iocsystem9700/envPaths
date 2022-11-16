@@ -1,0 +1,4 @@
+epicsEnvSet("ARCH","linux-x86_64")
+epicsEnvSet("IOC","iocsystem9700")
+epicsEnvSet("TOP","/home/namsh/epics/R3.14.12.5/EPICS_IOC/danfysik-1-0")
+epicsEnvSet("EPICS_BASE","/home/namsh/epics/R3.14.12.5/base")

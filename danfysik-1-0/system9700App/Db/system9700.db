@@ -1,0 +1,75 @@
+# Danfysik Magnet Power Supply Record
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr /beyourangel1@gmail.com
+# Data : Tuesday, April 25 13:43 KST 2021
+
+## Set Current 
+record(ao, "$(device):SetCURRENT")
+{
+    field(DESC, "Set Output Current")
+    field(DTYP, "stream")
+    field(OUT,  "@danfysik.proto setdac(0) $(port) $(A)")
+    field(EGU,  "A")
+}
+
+## Read Back Set Current 
+record(ai, "$(device):SetCURRENTRB")
+{
+    field(DESC, "Set Output Current Read Back")
+    field(DTYP, "stream")
+    field(INP,  "@danfysik.proto setdac(0) $(port) $(A)")
+    field(EGU,  "A")
+    field(SCAN, "1 second")
+}
+
+## Read Current Output
+record(ai, "$(device):GetCURRENT")
+{
+    field(DESC, "Output Current")
+    field(DTYP, "stream")
+    field(INP,  "@danfysik.proto getadc(0) $(port) $(A)")
+    field(SCAN, "1 second")
+    field(EGU,  "A")
+}
+
+## Read Voltage Output
+record(ai, "$(device):GetVOLT")
+{
+    field(DESC, "Unipolar Voltage Output")
+    field(DTYP, "stream")
+    field(INP,  "@danfysik.proto getadc(2) $(port) $(A)")
+    field(SCAN, "1 second")
+    field(LINR, "LINEAR")
+    field(ESLO, "0.01")
+    field(EGU,  "V")
+}
+## Set main power ON or OFF
+record(bo, "$(device):OUTPUT")
+{
+    field(DESC, "Main Power")
+    field(DTYP, "stream")
+    field(OUT, "@danfysik.proto setpower $(port) $(A)")
+    field(ZNAM, "Off")
+    field(ONAM, "On")
+}
+
+## Set control mode LOC or REM
+record(bo, "$(device):REM")
+{
+    field(DESC, "Control mode")
+    field(DTYP, "stream")
+    field(OUT, "@danfysik.proto setcmd $(port) $(A)")
+    field(ZNAM, "LOC")
+    field(ONAM, "REM")
+}
+
+## Reset magnet power supply
+record(bo, "$(device):RESET")
+{
+    field(DESC, "Reset")
+    field(DTYP, "stream")
+    field(OUT, "@danfysik.proto reset $(port) $(A)")
+    field(ZNAM, "Reset")
+    field(ONAM, "Reset")
+}
+

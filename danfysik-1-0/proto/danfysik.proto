@@ -1,0 +1,95 @@
+# Danfysik Magnet Power Supply Communication Protocol
+# Author : Seung-hee Nam
+# email : namsh@korea.ac.kr / beyourangel1@gmail.com
+# Date : Monday, January 25 13:43 KST 2021
+# Data format
+#       baud rate : 115200
+#       parity : None
+#       data : 8
+#       stop : 1
+# Communication procedure
+# Transmit Protocol : Danfysik Standard Command
+Terminator = CR;
+
+#-------------------------------------------#
+# Read value from an ADC channel            #
+# Instruction : AD X(CHANNEL)               #
+# Receive : Depends on the channel          #
+# 0 : Output current / (I/In)*100 / SDDD    #
+# 2 : Output Voltage / (V/Vn)*100 / SDDD    #
+#-------------------------------------------#
+getadc { 
+    out "AD \$1";
+    in "%f";
+}
+
+#-------------------------------------------#
+# Writes value to a DAC 	            #
+# Instruction : DA X val	            #
+# Depends on the channel      	   	    #
+# 0 : Sets output current in ppm	    #
+# 4 : Sets output voltage in ppm(+ only)    #
+#-------------------------------------------#
+setdac { 
+    out "DA \$1 %d";
+}
+
+#-------------------------------------------#
+# Read value to a DAC	 	            #
+# Instruction : DA X		            #
+# Receive : Depends on the channel	    #
+# 0 : Read output current in ppm	    #
+# 4 : Read output voltage in ppm	    #
+#-------------------------------------------#
+getdac { 
+    out "DA \$1";
+    in "\$1 %d";
+}
+
+
+#-------------------------------------------#
+# Set main power ON or OFF                  #
+# Instruction : N|F                         #
+#-------------------------------------------#
+setpower {
+    out "%{F|N}";
+}
+
+#-------------------------------------------#
+# Set control mode	 	            #
+# Instruction : CMD LOC|REM	            #
+# Depends on the command  	    	    #
+# LOC : Change to local control 	    #
+# REM : Change to remote control	    #
+#-------------------------------------------#
+setcmd { 
+    out "%{LOC|REM}";
+}
+
+#-------------------------------------------#
+# Read current control mode	            #
+# Instruction : CMD		            #
+# Receive : REM|LOC			    #   
+#-------------------------------------------#
+getcmd { 
+    out "CMD";
+    in "%{LOC|REM}";
+}
+
+#-------------------------------------------#
+# Read the interlock first catch status     #
+# Instruction : S1FIRSTH 		    #
+# Receive : consists of 6 Hex digits 	    #  
+#-------------------------------------------#
+getfirst { 
+    out "S1FIRSTH";
+    in "%x";
+}
+
+#-------------------------------------------#
+# Reset interlocks		      	    #
+# Instruction : RS	 		    #
+#-------------------------------------------#
+reset { 
+    out "RS";
+}
